@@ -10,6 +10,10 @@ var LoggerError *log.Logger
 var LoggerInfo *log.Logger
 
 func init() {
+	err := os.Mkdir("log", 0777)
+	if err != nil {
+		log.Panic("创建文件夹异常")
+	}
 	s := time.Now().Format("20060102")
 	logFile, err := os.OpenFile("log/c_"+s+".log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0644)
 	if err != nil {

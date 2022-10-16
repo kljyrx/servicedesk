@@ -4,6 +4,7 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/gogf/gf/os/gfile"
 	"github.com/jinzhu/gorm"
+	"github.com/kljyrx/servicedesk/helper"
 	_ "github.com/mattn/go-sqlite3"
 	"os"
 	"path"
@@ -20,13 +21,22 @@ func InitDB() *gorm.DB {
 
 	dataSource := "database" + string(os.PathSeparator) + sqliteName
 	if !gfile.Exists(dataSource) {
-		os.MkdirAll(path.Dir(dataSource), os.ModePerm)
-		os.Create(dataSource)
+		if err := os.MkdirAll(path.Dir(dataSource), os.ModePerm); err != nil {
+			helper.LogError(err.Error())
+			panic("系统错误")
+		}
+		if _, err := os.Create(dataSource); err != nil {
+			helper.LogError(err.Error())
+			panic("系统错误")
+		}
 	}
 	db, err = gorm.Open("sqlite3", dataSource)
 
 	if err != nil {
-		db.Close()
+		if err := db.Close(); err != nil {
+			helper.LogError(err.Error())
+			panic("系统错误")
+		}
 	}
 
 	// 设置连接池，空闲连接

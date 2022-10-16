@@ -2,14 +2,21 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/jinzhu/gorm"
 	"github.com/kljyrx/servicedesk/controllers"
+	"github.com/kljyrx/servicedesk/helper"
 	"github.com/kljyrx/servicedesk/models"
 )
 
 func main() {
 	r := gin.Default()
 	db := models.InitDB()
-	defer db.Close()
+	defer func(db *gorm.DB) {
+		err := db.Close()
+		if err != nil {
+			helper.LogError(err.Error())
+		}
+	}(db)
 	r.GET("/ping", func(c *gin.Context) {
 		c.JSON(200, gin.H{
 			"message": "pong",
@@ -17,5 +24,8 @@ func main() {
 	})
 	r.POST("/login", controllers.UserContro.Login)
 	r.POST("/creatAdmin", controllers.UserContro.SaveUser)
-	r.Run() // listen and serve on 0.0.0.0:8080
+	err := r.Run()
+	if err != nil {
+		return
+	} // listen and serve on 0.0.0.0:8080
 }

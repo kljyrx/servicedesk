@@ -12,14 +12,19 @@ type User struct {
 	Token    string `gorm:"column:token" json:"token"`       // 密码
 }
 
-func CountUserByName(name string) int {
+// TableName 自定义表名
+func (u *User) TableName() string {
+	return "admin_user"
+}
+
+func (u *User) CountUserByName(name string) int {
 	var count int
-	db.Model(&User{}).Where("name = ?", name).Count(&count)
+	db.Model(u).Where("name = ?", name).Count(&count)
 	return count
 }
 
-func FindUserByName(user *User) error {
-	if err := db.First(user, "name = ?", user.Name).Error; err != nil {
+func (u *User) FindUserByName() error {
+	if err := db.First(u, "name = ?", u.Name).Error; err != nil {
 		helper.LogError(err.Error())
 		return errors.New("db查询失败")
 	}
@@ -34,16 +39,16 @@ func (u *User) FindUserByToken() error {
 	return nil
 }
 
-func AddUser(user *User) error {
-	if err := db.Create(user).Error; err != nil {
+func (u *User) AddUser() error {
+	if err := db.Create(u).Error; err != nil {
 		helper.LogError(err.Error())
 		return errors.New("添加用户失败")
 	}
 	return nil
 }
 
-func UpdateUser(user *User) error {
-	if err := db.Save(user).Error; err != nil {
+func (u *User) UpdateUser() error {
+	if err := db.Save(u).Error; err != nil {
 		helper.LogError(err.Error())
 		return errors.New("修改用户失败")
 	}

@@ -18,6 +18,11 @@ type Machine struct {
 
 type Machines []Machine
 
+// TableName 自定义表名
+func (m *Machine) TableName() string {
+	return "machine"
+}
+
 func (m *Machine) FindMachineById() error {
 	if err := db.First(m, "id=?", m.ID).Error; err != nil {
 		helper.LogError(err.Error())

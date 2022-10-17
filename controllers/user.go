@@ -30,7 +30,7 @@ func (t *UserController) Login(c *gin.Context) {
 	}
 	var user models.User
 	user.Name = loginRequest.Name
-	if err := models.FindUserByName(&user); err != nil {
+	if err := user.FindUserByName(); err != nil {
 		c.JSON(400, err)
 		helper.LogError(err.Error())
 		return
@@ -40,7 +40,7 @@ func (t *UserController) Login(c *gin.Context) {
 		return
 	}
 	user.Token = helper.Md5(helper.Rand())
-	if err := models.UpdateUser(&user); err != nil {
+	if err := user.UpdateUser(); err != nil {
 		c.JSON(400, Response{Message: "token设置错误"})
 		return
 	}
@@ -55,17 +55,16 @@ func (t *UserController) SaveUser(c *gin.Context) {
 		helper.LogError(err.Error())
 		return
 	}
-
-	if num := models.CountUserByName(userCreateRequest.Name); num > 0 {
+	var user models.User
+	if num := user.CountUserByName(userCreateRequest.Name); num > 0 {
 		c.JSON(400, Response{Message: "用户名重复"})
 		return
 	}
 
 	// 调用业务层的方法
-	var user models.User
 	user.Name = userCreateRequest.Name
 	user.PassWord = helper.Md5(userCreateRequest.PassWord)
-	if err := models.AddUser(&user); err != nil {
+	if err := user.AddUser(); err != nil {
 		c.JSON(400, err)
 		helper.LogError(err.Error())
 		return

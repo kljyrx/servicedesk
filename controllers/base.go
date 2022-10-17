@@ -26,6 +26,16 @@ type ResponseListMachines struct {
 	Machines models.Machines
 }
 
+type MachinesStatus struct {
+	Mem float64
+	Cpu float64
+}
+
+type ResponseMachineStatus struct {
+	Response
+	Data []MachinesStatus
+}
+
 func Auth(c *gin.Context) (*models.User, error) {
 	token := c.GetHeader("token")
 	if token == "" {

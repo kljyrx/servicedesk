@@ -14,12 +14,20 @@ type User struct {
 
 func CountUserByName(name string) int {
 	var count int
-	db.Model(&User{}).Where("name <> ?", name).Count(&count)
+	db.Model(&User{}).Where("name = ?", name).Count(&count)
 	return count
 }
 
 func FindUserByName(user *User) error {
-	if err := db.First(user, "name=?", user.Name).Error; err != nil {
+	if err := db.First(user, "name = ?", user.Name).Error; err != nil {
+		helper.LogError(err.Error())
+		return errors.New("db查询失败")
+	}
+	return nil
+}
+
+func (u *User) FindUserByToken() error {
+	if err := db.First(u, "token=?", u.Token).Error; err != nil {
 		helper.LogError(err.Error())
 		return errors.New("db查询失败")
 	}

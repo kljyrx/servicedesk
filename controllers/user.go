@@ -7,13 +7,13 @@ import (
 )
 
 type UserCreateRequest struct {
-	Name     string `gorm:"column:name" json:"name"`         // 用户名
-	PassWord string `gorm:"column:password" json:"password"` // 密码
+	Name     string `json:"name"`         // 用户名
+	PassWord string `json:"password"` // 密码
 }
 
 type LoginRequest struct {
-	Name     string `gorm:"column:name" json:"name"`         // 用户名
-	PassWord string `gorm:"column:password" json:"password"` // 密码
+	Name     string `json:"name"`         // 用户名
+	PassWord string `json:"password"` // 密码
 }
 
 type UserController struct {

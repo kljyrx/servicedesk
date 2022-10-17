@@ -22,8 +22,11 @@ func main() {
 			"message": "pong",
 		})
 	})
-	r.POST("/login", controllers.UserContro.Login)
-	r.POST("/creatAdmin", controllers.UserContro.SaveUser)
+	r.POST("/login", controllers.UserControl.Login)
+	r.POST("/creatAdmin", controllers.UserControl.SaveUser)
+	r.POST("/creatMachine", controllers.MachineControl.SaveMachine)
+	r.POST("/listMachines", controllers.MachineControl.ListMachines)
+	r.POST("/getMachineStatus",controllers.MachineControl.GetMachineStatus)
 	err := r.Run()
 	if err != nil {
 		return

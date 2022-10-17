@@ -1,0 +1,52 @@
+package helper
+
+import (
+	"golang.org/x/crypto/ssh"
+	"net"
+)
+
+// SSHCli Cli 连接信息
+type SSHCli struct {
+	User string
+	Pwd    string
+	Addr    string
+	Client  *ssh.Client
+	Session *ssh.Session
+	LastResult string
+}
+
+// Connect 连接对象
+func (c *SSHCli) Connect() (*SSHCli, error) {
+	config := &ssh.ClientConfig{}
+	config.SetDefaults()
+	config.User = c.User
+	config.Auth = []ssh.AuthMethod{ssh.Password(c.Pwd)}
+	config.HostKeyCallback = func(hostname string, remote net.Addr, key ssh.PublicKey) error { return nil }
+	client, err := ssh.Dial("tcp", c.Addr, config)
+	if nil != err {
+		return c, err
+	}
+	c.Client = client
+	return c, nil
+}
+
+// Run 执行shell
+func (c *SSHCli) Run(shell string) (string, error) {
+	if c.Client == nil {
+		if _, err := c.Connect(); err != nil {
+			return "", err
+		}
+	}
+	session, err := c.Client.NewSession()
+	if err != nil {
+		return "", err
+	}
+	// 关闭会话
+	defer session.Close()
+	buf, err := session.CombinedOutput(shell)
+
+	c.LastResult = string(buf)
+	return c.LastResult, err
+}
+
+

@@ -12,7 +12,6 @@ import (
 	"strings"
 )
 
-
 func Md5(sig string) string {
 	newSig := md5.Sum([]byte(sig)) //转成加密编码
 	// 将编码转换为字符串
@@ -40,7 +39,6 @@ func PathExists(path string) (bool, error) {
 	}
 	return false, err
 }
-
 
 const AesKey string = "C69E7046C69E7046"
 
@@ -98,6 +96,6 @@ func PKCS7Padding(data []byte, blockSize int) []byte {
 func PKCS7UnPadding(data []byte) []byte {
 	length := len(data)
 	//获取填充的个数
-	unPadding:= int(data[length-1])
+	unPadding := int(data[length-1])
 	return data[:(length - unPadding)]
 }

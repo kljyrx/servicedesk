@@ -7,11 +7,11 @@ import (
 
 // SSHCli Cli 连接信息
 type SSHCli struct {
-	User string
-	Pwd    string
-	Addr    string
-	Client  *ssh.Client
-	Session *ssh.Session
+	User       string
+	Pwd        string
+	Addr       string
+	Client     *ssh.Client
+	Session    *ssh.Session
 	LastResult string
 }
 
@@ -48,5 +48,3 @@ func (c *SSHCli) Run(shell string) (string, error) {
 	c.LastResult = string(buf)
 	return c.LastResult, err
 }
-
-

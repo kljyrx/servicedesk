@@ -7,12 +7,12 @@ import (
 )
 
 type UserCreateRequest struct {
-	Name     string `json:"name"`         // 用户名
+	Name     string `json:"name"`     // 用户名
 	PassWord string `json:"password"` // 密码
 }
 
 type LoginRequest struct {
-	Name     string `json:"name"`         // 用户名
+	Name     string `json:"name"`     // 用户名
 	PassWord string `json:"password"` // 密码
 }
 

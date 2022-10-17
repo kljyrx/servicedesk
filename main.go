@@ -26,7 +26,7 @@ func main() {
 	r.POST("/creatAdmin", controllers.UserControl.SaveUser)
 	r.POST("/creatMachine", controllers.MachineControl.SaveMachine)
 	r.POST("/listMachines", controllers.MachineControl.ListMachines)
-	r.POST("/getMachineStatus",controllers.MachineControl.GetMachineStatus)
+	r.POST("/getMachineStatus", controllers.MachineControl.GetMachineStatus)
 	err := r.Run()
 	if err != nil {
 		return

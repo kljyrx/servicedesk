@@ -36,7 +36,7 @@ func (m *MachineController) SaveMachine(c *gin.Context) {
 	c.JSON(200, Response{Message: "添加机器成功！"})
 }
 
-func (m *MachineController) ListMachines(c *gin.Context){
+func (m *MachineController) ListMachines(c *gin.Context) {
 	var user *models.User
 	var err error
 	if user, err = Auth(c); err != nil {
@@ -45,16 +45,16 @@ func (m *MachineController) ListMachines(c *gin.Context){
 	}
 	var machines models.Machines
 	if err = machines.ListMachines(user.ID); err != nil {
-		c.JSON(400, Response{Message:  err.Error()})
+		c.JSON(400, Response{Message: err.Error()})
 		return
 	}
-	for i,_:=range machines{
-		machines[i].PassWord = ""//避免暴露密码给前端
+	for i, _ := range machines {
+		machines[i].PassWord = "" //避免暴露密码给前端
 	}
-	c.JSON(200, ResponseListMachines{Response:Response{Message: "获取机器列表成功！"},Machines: machines})
+	c.JSON(200, ResponseListMachines{Response: Response{Message: "获取机器列表成功！"}, Machines: machines})
 }
 
-func (m *MachineController) GetMachineStatus(c *gin.Context){
+func (m *MachineController) GetMachineStatus(c *gin.Context) {
 	var user *models.User
 	var err error
 	if user, err = Auth(c); err != nil {
@@ -67,24 +67,24 @@ func (m *MachineController) GetMachineStatus(c *gin.Context){
 		return
 	}
 	var machines models.Machines
-	if err = machines.ListMachinesByIds(user.ID,machineStatusRequest.Ids); err != nil {
-		c.JSON(400, Response{Message:  err.Error()})
+	if err = machines.ListMachinesByIds(user.ID, machineStatusRequest.Ids); err != nil {
+		c.JSON(400, Response{Message: err.Error()})
 		return
 	}
-	for _,machine:=range machines{
-		passWord:=helper.AesDecrypt(machine.PassWord)
+	for _, machine := range machines {
+		passWord := helper.AesDecrypt(machine.PassWord)
 		cli := helper.SSHCli{
-			Addr: machine.Host+":"+machine.Port,
+			Addr: machine.Host + ":" + machine.Port,
 			User: machine.User,
 			Pwd:  passWord,
 		}
 		// 建立连接对象
-		c,_ := cli.Connect()
-		res ,_ := c.Run("ls")
-		res1 ,_ := c.Run("pwd")
+		c, _ := cli.Connect()
+		res, _ := c.Run("ls")
+		res1, _ := c.Run("pwd")
 		c.Client.Close()
 		fmt.Println(res)
 		fmt.Println(res1)
 	}
-	c.JSON(200, ResponseListMachines{Response:Response{Message: "获取机器列表成功！"},Machines: machines})
+	c.JSON(200, ResponseListMachines{Response: Response{Message: "获取机器列表成功！"}, Machines: machines})
 }

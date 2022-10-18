@@ -1,0 +1,223 @@
+{
+	"info": {
+		"_postman_id": "0f6d745c-315f-497b-99f2-61ddcbbebd61",
+		"name": "golang",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "13494183"
+	},
+	"item": [
+		{
+			"name": "creatAdmin",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\":\"test6\",\r\n    \"password\":\"123456\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/creatAdmin",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"creatAdmin"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\":\"test5\",\r\n    \"password\":\"123456\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/login",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "creatMachine",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "token",
+						"value": "C69E70461EF27A51226B929FE5369798",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\":\"ali云机器\",\r\n    \"host\":\"127.0.0.1\",\r\n    \"port\":\"8081\",\r\n    \"password\":\"123456\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/creatMachine",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"creatMachine"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "listMachines",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "token",
+						"value": "C69E70461EF27A51226B929FE5369798",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:8080/listMachines",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"listMachines"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getMachineStatus",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "token",
+						"value": "C69E70461EF27A51226B929FE5369798",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"ids\":[\"4\"]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/getMachineStatus",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"getMachineStatus"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "uploadFile",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "token",
+						"value": "C69E70461EF27A51226B929FE5369798",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"ids\":[\"4\"],\r\n    \"localFilePath\":\"data/1.txt\",\r\n    \"remotePath\":\"/data2/1.txt\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/uploadFile",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"uploadFile"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "downloadFile",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "token",
+						"value": "C69E70461EF27A51226B929FE5369798",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\":4,\r\n    \"localFilePath\":\"data/2.txt\",\r\n    \"remotePath\":\"/data2/1.txt\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/downloadFile",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"downloadFile"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

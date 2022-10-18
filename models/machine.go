@@ -24,7 +24,7 @@ func (m *Machine) TableName() string {
 }
 
 func (m *Machine) FindMachineById() error {
-	if err := db.First(m, "id=?", m.ID).Error; err != nil {
+	if err := db.First(m, "operator_id=? and id=?", m.OperatorId, m.ID).Error; err != nil {
 		helper.LogError(err.Error())
 		return errors.New("db查询失败")
 	}

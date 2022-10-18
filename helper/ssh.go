@@ -74,10 +74,10 @@ func (c *SSHCli) RunTerminal(shell string) (string, error) {
 	//session.Stderr = stderr
 	//session.Stdin = os.Stdin
 
-	termWidth, termHeight, err := terminal.GetSize(fd)
+	/*termWidth, termHeight, err := terminal.GetSize(fd)
 	if err != nil {
 		panic(err)
-	}
+	}*/
 	// Set up terminal modes
 	modes := ssh.TerminalModes{
 		ssh.ECHO:          1,     // enable echoing
@@ -86,7 +86,7 @@ func (c *SSHCli) RunTerminal(shell string) (string, error) {
 	}
 
 	// Request pseudo terminal
-	if err := session.RequestPty("xterm", termHeight, termWidth, modes); err != nil {
+	if err := session.RequestPty("xterm", 0, 0, modes); err != nil {
 		return "", err
 	}
 
@@ -94,5 +94,4 @@ func (c *SSHCli) RunTerminal(shell string) (string, error) {
 	buf, err := session.CombinedOutput(shell)
 	c.LastResult = string(buf)
 	return c.LastResult, err
-	return "", err
 }

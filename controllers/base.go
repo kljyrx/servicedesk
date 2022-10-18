@@ -44,6 +44,7 @@ func Auth(c *gin.Context) (*models.User, error) {
 	var user models.User
 	user.Token = token
 	if err := user.FindUserByToken(); err != nil {
+		c.JSON(400, Response{Message: err.Error()})
 		return nil, errors.New("没有权限")
 	}
 	return &user, nil

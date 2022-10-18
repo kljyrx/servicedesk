@@ -27,6 +27,8 @@ func main() {
 	r.POST("/creatMachine", controllers.MachineControl.SaveMachine)
 	r.POST("/listMachines", controllers.MachineControl.ListMachines)
 	r.POST("/getMachineStatus", controllers.MachineControl.GetMachineStatus)
+	r.POST("/uploadFile", controllers.MachineControl.UploadFile)
+	r.POST("/downloadFile", controllers.MachineControl.DownloadFile)
 	err := r.Run()
 	if err != nil {
 		return

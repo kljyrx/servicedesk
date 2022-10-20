@@ -104,6 +104,6 @@ func PKCS7UnPadding(data []byte) []byte {
 func Division(a string, b string) float64 {
 	i1, _ := strconv.Atoi(a)
 	i2, _ := strconv.Atoi(b)
-	num1, _ := strconv.ParseFloat(fmt.Sprintf("%.4f", float64(i1)/float64(i2)), 64) // 保留2位小数
+	num1 := float64(i1) / float64(i2)
 	return num1
 }

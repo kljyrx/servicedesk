@@ -3,7 +3,6 @@ package models
 import (
 	"errors"
 	"github.com/kljyrx/servicedesk/helper"
-	"strings"
 )
 
 type Machine struct {
@@ -47,11 +46,11 @@ func (m *Machines) ListMachines(operatorId int) error {
 	return nil
 }
 
-func (m *Machines) ListMachinesByIds(operatorId int, ids []string) error {
+func (m *Machines) ListMachinesByIds(operatorId int, ids []int) error {
 	if len(ids) == 0 {
 		return errors.New("ids值为空")
 	}
-	if err := db.Find(m, "operator_id=? and id in (?)", operatorId, strings.Join(ids, ",")).Error; err != nil {
+	if err := db.Find(m, "operator_id=? and id in (?)", operatorId, ids).Error; err != nil {
 		helper.LogError(err.Error())
 		return errors.New("db查询失败")
 	}

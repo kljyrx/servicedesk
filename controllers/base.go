@@ -27,8 +27,9 @@ type ResponseListMachines struct {
 }
 
 type MachinesStatus struct {
-	Mem float64
-	Cpu float64
+	Mem   string
+	Cpu   string
+	Error string
 }
 
 type ResponseMachineStatus struct {

@@ -10,8 +10,8 @@ import (
 )
 
 type SftpCli struct {
-	SshClient     *ssh.Client
-	Client     *sftp.Client
+	SshClient *ssh.Client
+	Client    *sftp.Client
 }
 
 func (s *SftpCli) Connect() error {
@@ -24,7 +24,7 @@ func (s *SftpCli) Connect() error {
 	return nil
 }
 
-func (s *SftpCli) UploadFile(localFilePath string, remotePath string) error{
+func (s *SftpCli) UploadFile(localFilePath string, remotePath string) error {
 	srcFile, err := os.Open(localFilePath)
 	if err != nil {
 		fmt.Println("os.Open error : ", localFilePath)
@@ -32,11 +32,13 @@ func (s *SftpCli) UploadFile(localFilePath string, remotePath string) error{
 	}
 	defer srcFile.Close()
 	var remoteDir = path.Dir(remotePath)
-	_,err = s.Client.Stat(remoteDir)
-	if os.IsNotExist(err){
+	_, err = s.Client.Stat(remoteDir)
+	if os.IsNotExist(err) {
 		err = s.Client.MkdirAll(remoteDir)
-		fmt.Println(err)
-		return err
+		if err != nil {
+			fmt.Println(err)
+			return err
+		}
 	}
 	dstFile, err := s.Client.Create(remotePath)
 	if err != nil {
@@ -54,10 +56,9 @@ func (s *SftpCli) UploadFile(localFilePath string, remotePath string) error{
 	return nil
 }
 
-
-func (s *SftpCli) DownloadFile(localFilePath string, remotePath string) error{
+func (s *SftpCli) DownloadFile(localFilePath string, remotePath string) error {
 	srcFile, _ := s.Client.Open(remotePath) //远程
-	dstFile, _ := os.Create(localFilePath) //本地
+	dstFile, _ := os.Create(localFilePath)  //本地
 	defer func() {
 		_ = srcFile.Close()
 		_ = dstFile.Close()
